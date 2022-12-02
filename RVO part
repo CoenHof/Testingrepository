@@ -1,0 +1,257 @@
+/// <reference types="cypress" />
+
+describe('RVO buttons',() => {
+
+it('API response website RVO', () => {
+   
+cy.intercept('GET', 'https://www.rvo.nl/api/v1/messages/2000009').as('websiteResponse')
+
+cy.visit('https://www.rvo.nl/')
+
+cy.wait('@websiteResponse').then( xhr => {
+    console.log(xhr)
+    expect(xhr.response.statusCode).to.equal(200)
+    expect(xhr.request.url).to.equal('https://www.rvo.nl/api/v1/messages/2000009')
+})
+})
+
+// Given gebruiker op RVO homepage
+// When gebruiker op de button Onderwerpen klikt    
+// Then de gebruiker kan de onderwerpen raadplegen
+
+    it('Button Onderwerpen op URL en Dropdown veld is gevuld', () =>{
+
+    let dropDownMenu = ".MainMenu_m-sub-menu__kgy1H"; 
+
+    cy.visit('https://www.rvo.nl/')
+    cy.url().should('eq', 'https://www.rvo.nl/')
+
+    cy.get('#Onderwerpen').click()
+    cy.get(dropDownMenu)
+    .should('not.be.empty')
+})  
+
+it('Button Klimaat & Energie heeft titel, zichtbaar en href', () =>{
+    cy.get('[title="Klimaat & Energie"]')
+    .should('be.visible')
+    .then((buttonKlimaat) => {
+        expect(buttonKlimaat.text()).to.eq('Klimaat & Energie')
+    })
+    .should('have.attr', 'href')
+})
+
+it('Button Landbouw heeft titel, zichtbaar en href', () =>{
+    cy.get('[title="Landbouw"]')
+    .should('be.visible')
+    .then((buttonLandbouw) => {
+        expect(buttonLandbouw.text()).to.eq('Landbouw')
+    })
+    .should('have.attr', 'href')
+})
+
+it('Button Ondernemen & Bedrijfsvoering heeft titel, zichtbaar en href', () =>{
+    cy.get('[title="Ondernemen & Bedrijfsvoering"]')
+    .should('be.visible')
+    .then((buttonOndernemen) => {
+        expect(buttonOndernemen.text()).to.eq('Ondernemen & Bedrijfsvoering')
+    })
+    .should('have.attr', 'href')
+})
+
+it('Button Bouwen & Wonen heeft titel, zichtbaar en href', () =>{
+    cy.get('[title="Bouwen & Wonen"]')
+    .should('be.visible')
+    .then((buttonBouwen) => {
+        expect(buttonBouwen.text()).to.eq('Bouwen & Wonen')
+    })
+    .should('have.attr', 'href')
+})
+
+it('Button Visserij heeft titel, zichtbaar en href', () =>{
+    cy.get('[title="Visserij"]')
+    .should('be.visible')
+    .then((buttonVisserij) => {
+        expect(buttonVisserij.text()).to.eq('Visserij')
+    })
+    .should('have.attr','href')
+})
+
+it('Button Gezondheid, Zorg & Welzijn heeft titel, zichtbaar en href', () =>{
+    cy.get('[title="Gezondheid, Zorg & Welzijn"]')
+    .should('be.visible')
+    .then((buttonGezondheid) => {
+        expect(buttonGezondheid.text()).to.eq('Gezondheid, Zorg & Welzijn')
+    })
+    .should('have.attr','href')
+})
+
+it('Button Internationaal ondernemen heeft titel, zichtbaar en href', () =>{
+    cy.get('[title="Internationaal ondernemen"]')
+    .should('be.visible')
+    .then((buttonInternationaal) => {
+        expect(buttonInternationaal.text()).to.eq('Internationaal ondernemen')
+    })
+    .should('have.attr','href')
+})
+   
+it('Button  Dier & Natuur heeft titel, zichtbaar en href', () =>{
+    cy.get('[title="Dier & Natuur"]')
+    .should('be.visible')
+    .then((buttonDier) => {
+        expect(buttonDier.text()).to.eq('Dier & Natuur')
+    })
+    .should('have.attr','href')
+})
+
+it('Button  Ontwikkelingssamenwerking heeft juiste titel, zichtbaar en href', () =>{
+    cy.get('[title="Ontwikkelingssamenwerking"]')
+    .should('be.visible')
+    .then((buttonOntwikkelingssamenwerking) => {
+        expect(buttonOntwikkelingssamenwerking.text()).to.eq('Ontwikkelingssamenwerking')
+    })
+    .should('have.attr','href')
+})
+
+it('Button Innovatie, Onderzoek & Onderwijs heeft titel, zichtbaar en href', () =>{
+     cy.get('[title="Innovatie, Onderzoek & Onderwijs"]')
+    .should('be.visible')
+    .then((buttonInnovatie) => {
+        expect(buttonInnovatie.text()).to.eq('Innovatie, Onderzoek & Onderwijs')
+    })
+    .should('have.attr','href')
+})
+
+//Given gebruiker op RVO homepage
+//When gebruiker op de button Subsidie- en financieringswijzer klikt  
+//Then nieuwe pagina word geladen en informatie word getoond
+
+it('Button Studie- en Financieringswijzer heeft titel, zichtbaar en  href', () =>{
+    cy.visit('https://www.rvo.nl/')
+    cy.get('[title="Subsidie- en financieringswijzer"]')
+    .should('be.visible')
+    .then((buttonStudie) =>{
+        expect(buttonStudie.text()).to.eq('Subsidie- en financieringswijzer')
+    })
+    .should('have.attr','href')
+
+    cy.get('[title="Subsidie- en financieringswijzer"]').click()
+    cy.get('#main-content')
+    .should('not.be.empty')
+    
+})
+
+//Given gebruiker op RVO homepage 
+//When gebruiker op de button Over ons klikt
+//Then over ons word getoond op nieuwe pagina 
+
+it('Button Over Ons heeft titel, zichtbaar en href', () =>{
+    cy.visit('https://www.rvo.nl/')
+    cy.get('[title="Over ons"]')
+    .should('be.visible')
+    .then((buttonOverOns) =>{
+        expect(buttonOverOns.text()).to.eq('Over ons')
+    })
+    .should('have.attr','href')
+    
+    cy.get('[title="Over ons"]').click()
+    cy.get('.title-inner-wrapper')
+        .contains('Over ons')
+        .should('have.text', 'Over ons')
+
+    cy.get('.Intro_m-intro-type-regular__jj5O0')
+        .should('not.be.empty')
+})
+
+
+
+//Given gebruiker op RVO homepage
+//When gebruiker op de button contact klikt
+//Then contact pagina word getoond
+
+it('Button contactmogelijkheden heeft titel, zichtbaar en href', () =>{
+
+    //Kijken of URL klopt
+    cy.visit('https://www.rvo.nl/')
+    cy.url().should('eq', 'https://www.rvo.nl/')
+
+    //Element contact vinden DOM + kijken of zichtbaar + href want het is een buttonlink
+    cy.get('[title="Contact"]')
+    .should('be.visible')
+    .should('have.attr', 'href')
+    
+    //Kijken of buttontext klopt
+    cy.get('[title="Contact"]').then((buttonText) =>{ 
+        expect(buttonText.text()).to.eq('Contact')
+    })
+
+
+    //Klikken op contact om contactmogelijkheden te kunnen zien en pagina mag niet leeg zijn
+    cy.get('[title="Contact"]').click()
+    cy.get('.Blocks_o-blocks-block-wrapper__JPlzy')
+        .should('not.be.empty')
+
+    //Controleren of de contactmogelijkheden aanwezig zijn
+    //Array = contactmogelijkheden MEERVOUD Array is verzameling items
+    //Variabele = contactmogelijkheid. ENKELVOUD je zoekt een item 
+    const contactMogelijkheden = [
+        'Chat',
+        'Telefoon',
+        'Contactformulier',
+        'Socialmediakanalen',
+        'Compliment',
+        'Oneens met RVO',
+        'Pers',
+        'Voorlichting',
+        'Vestigingen',
+        'Ondernemersforum Higherlevel.nl',
+        'Wet open overheid (Woo)',
+        'Fraude en integriteitsschending'
+    ]
+    
+    contactMogelijkheden.forEach((contactOptie, i) => {
+        cy.get('.Block_o-block-title__tO26T')
+        .eq(i)
+        .should('be.visible')
+        .should('contain', contactOptie)
+    })
+
+
+})
+
+
+//Given gebruiker op RVO homepage 
+//When gebruiker op zoeken klikt
+//Then zoekbalk word getoond
+
+it('Button zoeken word bij er op klikken getoond zodat er gezocht kan worden op <item>', () => {
+
+    let zoekButton = ".MainNavigation_search-block-wrapper__sUkCP";
+
+    cy.visit('https://www.rvo.nl/')
+    cy.get(zoekButton)
+    .should('be.visible')
+    .should('have.text', 'Zoeken')
+    .click()
+    
+    cy.get('#modalinput')
+        .should('be.visible')
+        .type('Dit is een test')
+        .invoke('val')
+        .should('not.be.empty')
+        
+    cy.get('#modalinput')
+        .clear()
+        .should('be.empty')
+})
+    
+    })
+
+
+    
+
+
+    
+    
+    
+
+
